@@ -101,3 +101,13 @@ The label follows the supplied black/gold crown and script branding. It uses a c
 ## Artwork provenance
 
 `public/concert.webp` is a generated promotional background derived from the provided flyer using the built-in image generation tool. Prompt: “Create a website background image derived from the supplied Celebrating Life Christian concert flyer. Preserve the visual atmosphere: warm amber and golden stage lights, deep near-black surroundings, glowing simple cross in the distant center of the stage, silhouettes of musicians and audience worshipping. Remove ALL lettering, logos, crowns, date, address, icons and event information. This is illustrative promotional artwork, not documentary photography. Landscape wide composition, dark clear negative space in the upper and left half for HTML text overlays. Concert occupies lower-right half. Elegant cinematic amber lights and soft haze, no purple or blue, no scary or Halloween motifs. No text, no watermark.”
+
+## Visual motion
+
+The shared layout owns one decorative `/concert.webp` image, fixed behind the header, page content and footer on every language route. `src/styles/motion.css` adds a 32-second Ken Burns animation that alternates direction continuously (a full out-and-back cycle takes 64 seconds). Mobile uses a smaller zoom. Dark overlays and solid input surfaces maintain readability.
+
+The header's bilingual effects control saves only a local motion preference. System reduced-motion always takes priority; the background also pauses in hidden tabs. With JavaScript disabled, content and the background remain visible and static. Scroll reveals use IntersectionObserver without initially hiding content. No new animation dependency, client-side router, or change to form/analytics lifecycles was added.
+
+Visual direction was informed by https://github.com/midudev/la-velada-web-oficial (layered atmosphere, restrained transitions). Implementation is original; no code or visual assets were copied from that project.
+
+Before launch, review the home, hope and form pages at mobile and desktop widths; check a complete Ken Burns cycle for uncovered edges, pause/resume across page navigation, reduced-motion changes, keyboard navigation and no-JavaScript fallback. Browser visual acceptance remains pending.

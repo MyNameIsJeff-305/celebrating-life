@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /es/admin/
+Disallow: /en/admin/
+Disallow: /api/
+Disallow: /q/

@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Crown from '../../components/Crown.astro';
+import IntakeForm from '../../components/IntakeForm.astro';
+import Admin from '../../components/Admin.astro';
+import {event,copy,type Lang} from '../../data/event';
+export function getStaticPaths(){return ['es','en'].flatMap(lang=>[undefined,'hope','connect','register','privacy','admin'].map(page=>({params:{lang,page}})));}
+const lang=Astro.params.lang as Lang,page=Astro.params.page||'',t=copy[lang];
+const title=page==='hope'?t.hope:page==='connect'?t.connectTitle:page==='register'?t.registrationTitle:page==='privacy'?t.privacy:page==='admin'?(lang==='es'?'Panel del equipo':'Team dashboard'):t.light;
+---
+<Layout lang={lang} title={title} route={page} privatePage={page==='admin'}>
+{page===''&&<><section class="hero"><div class="wrap"><p class="eyebrow">{t.eyebrow}</p><h1 class="wordmark">Celebrating <span class="life">Life</span></h1><p class="light">{t.light}</p><p class="verse">{t.verse}</p><p class="intro">{t.intro}</p><div class="actions"><a class="button" href={`/${lang}/register/`}>{t.reserve}<span aria-hidden="true">↗</span></a><a class="button secondary" href={`/${lang}/hope/`}>{t.message}</a></div><p class="eyebrow">{t.free} · {t.date} · 7:00 PM</p></div></section>
+<div class="wrap"><section class="event-strip"><div><p class="eyebrow">{lang==='es'?'LA FECHA':'THE DATE'}</p><b>{lang==='es'?'31 de octubre, 2026':'October 31, 2026'}</b><p>{t.free}</p></div><div><p class="eyebrow">{lang==='es'?'LA HORA':'THE TIME'}</p><b>7:00 PM</b><p>{t.doors}</p></div><div><p class="eyebrow">{lang==='es'?'EL LUGAR':'THE PLACE'}</p><b>{event.church}</b><p>{event.address} · {event.city}</p></div></section>
+<section class="section two-column"><div><p class="eyebrow">SALT · LIGHT · LIFE</p><h2>{t.welcome}</h2><p>{t.welcomeText}</p></div><div class="features">{t.features.map((f,i)=><div class="feature"><span>0{i+1}</span>{f}</div>)}</div></section></div>
+<section class="callout"><Crown/><h2 style="margin-top:22px">{t.invitation}</h2><p>{t.invitationText}</p><div class="actions"><a class="button" href={event.map} target="_blank" rel="noopener noreferrer">{t.directions} ↗</a><a class="button secondary" href={`/${lang}/connect/`}>{t.connect}</a></div></section></>}
+{page==='hope'&&<><header class="wrap page-top"><p class="eyebrow">{t.message}</p><h1>{t.hope}</h1><p>{t.hopeIntro}</p><a class="button" href={`/${lang}/connect/`}>{t.connect} ↗</a></header><div class="content-narrow">{t.hopeSections.map(([heading,body,reference],i)=><section class="message-step"><span class="number">0{i+1}</span><div><h2>{heading}</h2><p>{body}</p><p class="scripture">{reference}</p></div></section>)}<section class="prayer"><h2>{t.prayerTitle}</h2><blockquote>{t.prayerText}</blockquote><p>{t.prayerNote}</p></section><a class="button" href={`/${lang}/connect/`}>{t.connect} ↗</a></div><section class="callout"><p class="eyebrow">CELEBRATING LIFE · 31 OCT · 7:00 PM</p><h2>{t.invitation}</h2><p>{t.free} · {event.church}</p><a class="button secondary" href={`/${lang}/`}>{t.concert} ↗</a></section></>}
+{(page==='connect'||page==='register')&&<div class="wrap form-layout"><aside class="form-aside"><p class="eyebrow">{page==='connect'?'BETESDA · SALT · LIGHT · LIFE':'CELEBRATING LIFE · 31 OCT 2026'}</p><h1>{page==='connect'?t.connectTitle:t.registrationTitle}</h1><p>{page==='connect'?t.connectIntro:t.registrationIntro}</p><div class="mini-event"><Crown/><p>{event.church}<br/>{event.address}<br/>{event.city}</p><p>{t.date} · 7:00 PM<br/>{t.free}</p></div></aside><IntakeForm lang={lang} kind={page==='connect'?'contact':'attendee'}/></div>}
+{page==='privacy'&&<><header class="page-top wrap"><p class="eyebrow">BETESDA</p><h1>{t.privacyTitle}</h1></header><div class="content-narrow privacy-copy">{t.privacyParagraphs.map(p=><p>{p}</p>)}<a class="button secondary" href={`/${lang}/connect/`}>{t.connect}</a></div></>}
+{page==='admin'&&<Admin lang={lang}/>}
+</Layout>

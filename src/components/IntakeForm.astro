@@ -1,0 +1,21 @@
+---
+import {copy,type Lang} from '../data/event';
+interface Props {lang:Lang;kind:'contact'|'attendee'}
+const {lang,kind}=Astro.props,t=copy[lang],contact=kind==='contact';
+---
+<div>
+<form class="form-card" id="intake" data-kind={kind} data-lang={lang} data-error={t.formError} data-validation={t.validationError} data-rate={t.rateError} data-saving={t.sending}>
+<noscript><p class="noscript">{lang==='es'?'Activa JavaScript para enviar el formulario, o pide ayuda a un voluntario de la iglesia.':'Enable JavaScript to submit this form, or ask a church volunteer for help.'}</p></noscript>
+<div class="honeypot" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"/></label></div>
+{contact&&<><label class="field">{t.intent}<select name="intent" required>{['prayer','faith','contact','visit'].map((v,i)=><option value={v}>{t.intents[i]}</option>)}</select></label><p class="help">{t.anonymous}</p></>}
+<label class="field">{t.name} {contact&&<small>{t.optional}</small>}<input name="name" autocomplete="name" required={!contact} maxlength="120"/></label>
+{!contact&&<label class="field">{t.age} <small>{t.optional}</small><select name="age"><option value="">{t.ageSkip}</option><option value="under13">{lang==='es'?'Menos de 13':'Under 13'}</option>{['13–17','18–24','25–34','35–44','45+'].map(v=><option value={v}>{v}</option>)}</select></label>}
+<div class="field-row"><label class="field">{t.phone}<small>{t.optional}</small><input name="phone" type="tel" autocomplete="tel" maxlength="40"/></label><label class="field">{t.email}<small>{t.optional}</small><input name="email" type="email" autocomplete="email" maxlength="254"/></label></div>
+{contact&&<><label class="field">{t.messageLabel}<textarea name="message" maxlength="2000" rows="5"></textarea></label><label class="check"><input type="checkbox" name="contactPermission"/><span>{t.permission}</span></label></>}
+<label class="check"><input type="checkbox" name="updatesPermission"/><span>{t.updates}</span></label>
+<p class="help">{t.privacyNote} <a href={`/${lang}/privacy/`} style="text-decoration:underline">{t.privacy}</a></p>
+<p class="status" id="form-status" role="alert"></p><button type="submit" class="button">{contact?t.send:t.submitRegistration} <span aria-hidden="true">↗</span></button>
+</form>
+<section class="success" id="form-success" hidden tabindex="-1"><h2>{contact?t.successTitle:t.registeredTitle}</h2><p>{contact?t.successText:t.registeredText}</p><code id="registration-code" hidden></code><a class="button" href={`/${lang}/`}>{t.back}</a></section>
+</div>
+<script>import '../scripts/form';</script>

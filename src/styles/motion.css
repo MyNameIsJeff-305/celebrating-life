@@ -1,0 +1,113 @@
+/* Shared atmosphere: one image for the entire document, behind every route. */
+body { position: relative; isolation: isolate; }
+.ambient-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+  contain: strict;
+}
+.ambient-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% center;
+  transform: scale(1.06);
+  transform-origin: 62% 45%;
+  animation: ken-burns 32s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.ambient-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #100e0be8 0%, #100e0b94 55%, #100e0b66),
+    linear-gradient(180deg, #100e0b38, #100e0b20 45%, #100e0be6);
+}
+html[data-motion='on'] .ambient-background img { animation-play-state: running; }
+html[data-page-hidden='true'] .ambient-background img { animation-play-state: paused; }
+@keyframes ken-burns {
+  from { transform: scale(1.06) translate3d(-1%, 0, 0); }
+  to { transform: scale(1.19) translate3d(1.5%, -1%, 0); }
+}
+
+/* Legible layers keep the concert visible throughout the layout. */
+.site-header { border-bottom: 1px solid #e9b96519; }
+.hero { isolation: auto; }
+.hero .wrap { position: relative; }
+.hero .intro, .page-top p, .form-aside > p { color: #e3d9c9; }
+.event-strip { background: #100e0b80; padding-inline: 25px; border-color: #e9b9654d; }
+.callout { background: radial-gradient(ellipse at 70% 100%, #87512033, transparent 70%), #100e0ba8; }
+.callout > svg { color: var(--gold); }
+.form-card, .prayer, .success { background: #17130ff2; box-shadow: 0 18px 60px #0003; }
+.admin { background: #100e0beb; }
+.wordmark .life { text-shadow: 0 0 55px #e9b96538; }
+.header-tools { display: flex; align-items: center; gap: 18px; }
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 8px;
+  background: #100e0b80;
+  border: 1px solid #e9b96540;
+  border-radius: 3px;
+  color: var(--muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.motion-toggle:disabled { cursor: default; opacity: 1; }
+.motion-toggle svg { width: 13px; height: 13px; color: var(--gold); }
+.motion-toggle .play-icon { display: none; }
+html[data-motion='off'] .motion-toggle .play-icon { display: block; }
+html[data-motion='off'] .motion-toggle .pause-icon { display: none; }
+.scroll-cue { display: inline-flex; align-items: center; gap: 13px; margin-top: 18px; min-height: 44px; color: var(--muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+.scroll-cue span { display: grid; place-items: center; width: 30px; height: 40px; border: 1px solid #e9b96566; border-radius: 20px; color: var(--gold); font-size: 16px; }
+#event-details { scroll-margin-top: 24px; }
+.scroll-progress { position: fixed; inset: 0 0 auto; height: 2px; z-index: 30; background: var(--gold); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+html[data-motion='off'] .scroll-progress { display: none; }
+
+/* All motion is opt-in via the shared preference; no animation library. */
+html[data-motion='on'] { scroll-behavior: smooth; }
+html[data-motion='on'] :is(.button, .nav-register, .feature, .motion-toggle) {
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+nav a { position: relative; }
+nav a:not(.nav-register)::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+html[data-motion='on'] nav a::after { transition: transform 220ms ease; }
+nav a:is(:hover, :focus-visible)::after { transform: scaleX(1); }
+.button:hover { box-shadow: 0 8px 28px #e9b96526; }
+.button.secondary:hover, .nav-register:hover { background: #e9b96515; border-color: var(--gold); }
+.motion-toggle:not(:disabled):hover { border-color: var(--gold); color: var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  html[data-motion='on'] .button:not(:disabled):hover { transform: translateY(-3px); }
+  html[data-motion='on'] .feature:hover { transform: translateX(5px); border-color: var(--gold); }
+}
+html[data-motion='on'] .hero [data-intro] { animation: arrive 900ms cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--intro-delay, 0ms); }
+html[data-motion='on'] .is-revealing { animation: arrive 700ms cubic-bezier(.2,.7,.2,1) both; }
+/* A keyboard user must never focus content that is still transparent. */
+html[data-motion='on'] :is([data-intro], .is-revealing):focus-within { animation: none; }
+@keyframes arrive { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 1050px) { .header-tools { gap: 8px; } .motion-toggle [data-motion-label] { display: none; } .motion-toggle { width: 44px; justify-content: center; } }
+@media (max-width: 600px) {
+  .ambient-background img { object-position: 64% center; transform-origin: 64% 50%; animation-name: ken-burns-mobile; }
+  .ambient-background::after { background: linear-gradient(90deg, #100e0bd9, #100e0b70), linear-gradient(180deg, #100e0b33, #100e0b22 40%, #100e0be6); }
+  .hero { padding-bottom: 35px; }
+  .event-strip { padding-inline: 20px; }
+  .scroll-cue { margin-top: 8px; font-size: 9px; }
+  .header-tools { gap: 6px; }
+  .language { font-size: 11px; }
+  .language span { margin-inline: 3px; }
+}
+@keyframes ken-burns-mobile { from { transform: scale(1.04); } to { transform: scale(1.12) translate3d(-1%, -.5%, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  html[data-motion] { scroll-behavior: auto; }
+  .ambient-background img, html[data-motion] .hero [data-intro], html[data-motion] .is-revealing { animation: none; }
+  html[data-motion] :is(.button, .feature, .nav-register, .motion-toggle, nav a::after) { transition: none; transform: none; }
+  .scroll-progress { display: none; }
+}
+@media print { .ambient-background, .motion-toggle, .scroll-progress, .scroll-cue { display: none; } }

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/motion.css';
 import '@fontsource/cormorant-garamond/latin-500.css';
 import '@fontsource/allura/latin-400.css';
 import '@fontsource/dm-sans/latin-400.css';
@@ -11,21 +12,39 @@ const {lang,title,route='',privatePage=false}=Astro.props;
 const t=copy[lang], other=lang==='es'?'en':'es';
 const ga=privatePage?'':import.meta.env.PUBLIC_GA_MEASUREMENT_ID || '';
 ---
-<!doctype html><html lang={lang}><head>
+<!doctype html><html lang={lang} data-motion="off"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{title} | Celebrating Life · Betesda</title><meta name="description" content={t.intro}/>
 <link rel="canonical" href={`${event.site}/${lang}/${route?route+'/':''}`}/>
 <link rel="alternate" hreflang="es" href={`${event.site}/es/${route?route+'/':''}`}/><link rel="alternate" hreflang="en" href={`${event.site}/en/${route?route+'/':''}`}/>
 {privatePage&&<meta name="robots" content="noindex,nofollow"/>}
 <meta property="og:title" content="Celebrating Life · October 31, 2026 · 7 PM"/><meta property="og:description" content={t.intro}/><meta property="og:image" content={`${event.site}/concert.webp`}/><meta property="og:type" content="website"/>
+<script is:inline>
+// Resolve the motion preference before first paint; no-JS stays static.
+try {
+  document.documentElement.dataset.motion = !matchMedia('(prefers-reduced-motion: reduce)').matches && localStorage.getItem('celebrating-life-motion') !== 'off' ? 'on' : 'off';
+} catch {
+  document.documentElement.dataset.motion = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'off' : 'on';
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 </head><body data-lang={lang} data-ga={ga}>
+<div class="ambient-background" aria-hidden="true"><img src="/concert.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async"/></div>
+<div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
 <a class="skip" href="#main">{lang==='es'?'Saltar al contenido':'Skip to content'}</a>
 <header class="site-header wrap"><a class="brand" href={`/${lang}/`} aria-label={lang==='es'?'Celebrating Life — Inicio':'Celebrating Life — Home'}><Crown/><span>BETESDA<span class="brand-sub">CELEBRATING LIFE</span></span></a>
 <nav aria-label={lang==='es'?'Navegación principal':'Main navigation'}><a href={`/${lang}/hope/`}>{t.message}</a><a href={`/${lang}/connect/`}>{t.connect}</a><a class="nav-register" href={`/${lang}/register/`}>{t.register}</a></nav>
-<a class="language" href={`/${other}/${route?route+'/':''}`} lang={other} aria-label={other==='es'?'Cambiar a español':'Switch to English'}>{lang.toUpperCase()} <span>/</span> {other.toUpperCase()}</a></header>
+<div class="header-tools"><button type="button" class="motion-toggle" data-motion-toggle hidden
+  data-pause={lang==='es'?'Pausar efectos':'Pause effects'}
+  data-resume={lang==='es'?'Activar efectos':'Enable effects'}
+  data-reduced={lang==='es'?'Movimiento reducido':'Reduced motion'}>
+  <svg class="pause-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg>
+  <svg class="play-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m4 2 10 6-10 6z"/></svg>
+  <span data-motion-label>{lang==='es'?'Pausar efectos':'Pause effects'}</span>
+</button><a class="language" href={`/${other}/${route?route+'/':''}`} lang={other} aria-label={other==='es'?'Cambiar a español':'Switch to English'}>{lang.toUpperCase()} <span>/</span> {other.toUpperCase()}</a></div></header>
 <main id="main"><slot/></main>
 <footer class="wrap"><div class="footer-brand"><Crown/><p>Betesda Baptist Church<br/><span>{event.address} · {event.city}</span></p></div><div><a href={`/${lang}/privacy/`}>{t.privacy}</a><button type="button" class="text-button" id="analytics-settings">{t.settings}</button></div><p class="footer-line">SALT · LIGHT · LIFE <span>© 2026 Betesda Baptist Church</span></p></footer>
 {!privatePage&&<aside id="consent" class="consent" hidden aria-label={t.settings}><p>{t.cookieText}</p><div><button id="consent-yes" class="button small">{t.allow}</button><button id="consent-no" class="button secondary small">{t.decline}</button></div></aside>}
 <script>import '../scripts/analytics';</script>
+<script>import '../scripts/motion';</script>
 </body></html>

@@ -1,4 +1,5 @@
 ---
+import { ArrowUpRight } from '@lucide/astro';
 import type {Lang} from '../data/event';
 interface Props{lang:Lang}const {lang}=Astro.props;const es=lang==='es';
 ---
@@ -7,7 +8,7 @@ interface Props{lang:Lang}const {lang}=Astro.props;const es=lang==='es';
 <form id="admin-login" class="form-card" style="max-width:450px"><label class="field">{es?'Contraseña del equipo':'Team password'}<input name="password" type="password" autocomplete="current-password" required/></label><button class="button" type="submit">{es?'Entrar':'Sign in'}</button></form>
 <p id="admin-status" class="status" role="status" aria-live="polite"></p>
 <div id="admin-data" hidden>
-<div class="admin-toolbar"><button id="refresh" class="button secondary small">{es?'Actualizar':'Refresh'}</button><a class="button secondary small" href={`/${lang}/register/`} target="_blank" rel="noopener">{es?'Registrar otra persona':'Register another person'} ↗</a><button id="logout" class="text-button">{es?'Cerrar sesión':'Sign out'}</button></div>
+<div class="admin-toolbar"><button id="refresh" class="button secondary small">{es?'Actualizar':'Refresh'}</button><a class="button secondary small" href={`/${lang}/register/`} target="_blank" rel="noopener">{es?'Registrar otra persona':'Register another person'} <ArrowUpRight class="ui-icon" size={18} aria-hidden="true" focusable="false"/></a><button id="logout" class="text-button">{es?'Cerrar sesión':'Sign out'}</button></div>
 <div class="metrics">{[['qr',es?'Aperturas de enlaces QR':'QR link openings'],['contacts',es?'Solicitudes de contacto':'Contact requests'],['registrations',es?'Personas registradas':'Registered people'],['arrivals',es?'Llegadas confirmadas':'Confirmed arrivals']].map(([id,label])=><div class="metric">{label}<b id={`metric-${id}`}>—</b></div>)}</div>
 <p class="help" id="funnel"></p><p class="help" id="age-summary"></p>
 <p class="help">{es?'Las aperturas no son personas únicas. La atribución a las botellas dura hasta 30 días en el mismo navegador. Un contacto y un asistente son registros separados; la coincidencia del navegador no prueba que sean la misma persona.':'Openings are not unique people. Bottle attribution lasts up to 30 days in the same browser. Contacts and attendees are separate records; a matching browser does not prove they are the same person.'}</p>

@@ -1,1 +1,24 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta http-equiv="refresh" content="0;url=/es/"/><title>Celebrating Life</title></head><body><a href="/es/">Español</a> · <a href="/en/">English</a></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Celebrating Life · Betesda</title>
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="es" href="/es/" />
+    <noscript><meta http-equiv="refresh" content="0;url=/en/" /></noscript>
+    <script>
+      import { preferredLanguage } from '../scripts/language';
+      let saved = null;
+      try { saved = localStorage.getItem('cl-language'); } catch { /* Browser preferences still work. */ }
+      const lang = preferredLanguage(saved, navigator.languages?.length ? navigator.languages : [navigator.language]);
+      location.replace(`/${lang}/${location.search}${location.hash}`);
+    </script>
+    <style>
+      :global(body) { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #100e0b; color: #fff8eb; font: 16px system-ui, sans-serif; }
+      main { text-align: center; padding: 24px; }
+      a { color: #e9b965; display: inline-block; padding: 16px; }
+    </style>
+  </head>
+  <body><main><h1>Celebrating Life</h1><p><a href="/en/" lang="en">English</a> · <a href="/es/" lang="es">Español</a></p></main></body>
+</html>

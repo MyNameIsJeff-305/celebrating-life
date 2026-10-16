@@ -6,10 +6,6 @@ NODE_VERSION = "24"
 [functions]
 directory = "netlify/functions"
 node_bundler = "esbuild"
-[[redirects]]
-from = "/"
-to = "/es/"
-status = 302
 [[headers]]
 for = "/*"
 [headers.values]

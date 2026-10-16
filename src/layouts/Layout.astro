@@ -6,6 +6,7 @@ import '@fontsource/allura/latin-400.css';
 import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-600.css';
 import Crown from '../components/Crown.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { copy, event, type Lang } from '../data/event';
 interface Props { lang: Lang; title: string; route?: string; privatePage?: boolean; }
 const {lang,title,route='',privatePage=false}=Astro.props;
@@ -41,10 +42,11 @@ try {
   <svg class="pause-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg>
   <svg class="play-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m4 2 10 6-10 6z"/></svg>
   <span data-motion-label>{lang==='es'?'Pausar efectos':'Pause effects'}</span>
-</button><a class="language" href={`/${other}/${route?route+'/':''}`} lang={other} aria-label={other==='es'?'Cambiar a español':'Switch to English'}>{lang.toUpperCase()} <span>/</span> {other.toUpperCase()}</a></div></header>
+</button><a class="language" data-language-switch={other} href={`/${other}/${route?route+'/':''}`} lang={other} aria-label={other==='es'?'Cambiar a español':'Switch to English'}>{lang.toUpperCase()} <span>/</span> {other.toUpperCase()}</a></div></header>
 <main id="main"><slot/></main>
 <footer class="wrap"><div class="footer-brand"><Crown/><p>Betesda Baptist Church<br/><span>{event.address} · {event.city}</span></p></div><div><a href={`/${lang}/privacy/`}>{t.privacy}</a><button type="button" class="text-button" id="analytics-settings">{t.settings}</button></div><p class="footer-line">SALT · LIGHT · LIFE <span>© 2026 Betesda Baptist Church</span></p></footer>
-{!privatePage&&<aside id="consent" class="consent" hidden aria-label={t.settings}><p>{t.cookieText}</p><div><button id="consent-yes" class="button small">{t.allow}</button><button id="consent-no" class="button secondary small">{t.decline}</button></div></aside>}
+{!privatePage&&<CookieConsent lang={lang} autoPrompt={route!=='privacy'}/> }
 <script>import '../scripts/analytics';</script>
 <script>import '../scripts/motion';</script>
+<script>import { rememberLanguageSwitches } from '../scripts/language'; rememberLanguageSwitches();</script>
 </body></html>

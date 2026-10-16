@@ -9,7 +9,7 @@ export type Lang = 'es' | 'en';
 export const copy = {
  es: {
   concert:'El concierto', message:'Un mensaje para ti', connect:'Conéctate', register:'Regístrate',
-  eyebrow:'BETESDA PRESENTA · CONCIERTO CRISTIANO', light:'La luz del mundo', verse:'JUAN 8:12',
+  eyebrow:'BETESDA\'S UNBROKEN YOUTH PRESENTA · CONCIERTO CRISTIANO', light:'La luz del mundo', verse:'JUAN 8:12',
   intro:'Una noche de música, adoración y esperanza. Ven y celebra la vida en Cristo con nosotros.',
   date:'SÁBADO, 31 DE OCTUBRE', free:'ENTRADA GRATUITA', doors:'Puertas abren a las 6:30 PM',
   reserve:'Quiero asistir', directions:'Cómo llegar', welcome:'Hay un lugar para ti.',
@@ -38,7 +38,7 @@ export const copy = {
  },
  en: {
   concert:'The concert', message:'A message for you', connect:'Connect', register:'Register',
-  eyebrow:'BETESDA PRESENTS · CHRISTIAN CONCERT', light:'The light of the world', verse:'JOHN 8:12',
+  eyebrow:'BETESDA\'S UNBROKEN YOUTH PRESENTS · CHRISTIAN CONCERT', light:'The light of the world', verse:'JOHN 8:12',
   intro:'A night of music, worship, and hope. Come celebrate life in Christ with us.',
   date:'SATURDAY, OCTOBER 31', free:'FREE ADMISSION', doors:'Doors open at 6:30 PM',
   reserve:'I want to attend', directions:'Get directions', welcome:'There is a place for you.',

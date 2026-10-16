@@ -5,6 +5,7 @@ if(form){
  const spanish=form.dataset.lang==='es';
  const status=document.getElementById('form-status')!;
  const button=form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+ const buttonLabel=button.querySelector<HTMLElement>('[data-submit-label]')!;
  let id=crypto.randomUUID(),started=false;
  const field=(name:string)=>form.elements.namedItem(name) as HTMLInputElement;
  function requirements(){
@@ -25,7 +26,7 @@ if(form){
   const fields=new FormData(form),payload:Record<string,unknown>={id,kind,lang:form.dataset.lang};
   for(const [key,value] of fields)payload[key]=value;
   payload.contactPermission=fields.has('contactPermission');payload.updatesPermission=fields.has('updatesPermission');
-  const text=button.textContent;button.disabled=true;button.textContent=form.dataset.saving||'';status.textContent='';
+  const text=buttonLabel.textContent;button.disabled=true;button.setAttribute('aria-busy','true');buttonLabel.textContent=form.dataset.saving||'';status.textContent='';
   try{
    const res=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
    const data=await res.json();
@@ -37,6 +38,6 @@ if(form){
    if(kind==='attendee'){const code=document.getElementById('registration-code')!;code.hidden=false;code.textContent=data.code;}
    panel.focus();form.reset();id=crypto.randomUUID();
   }catch(err){status.textContent=err instanceof Error&&err.message==='validation'?form.dataset.validation!:err instanceof Error&&err.message==='rate'?form.dataset.rate!:form.dataset.error!;}
-  finally{button.disabled=false;button.textContent=text;}
+  finally{button.disabled=false;button.removeAttribute('aria-busy');buttonLabel.textContent=text;}
  });
 }

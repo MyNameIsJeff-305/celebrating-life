@@ -19,7 +19,7 @@
 .consent .eyebrow { margin-bottom: 16px; font-size: 10px; }
 .consent h2 { font-size: clamp(2rem, 7vw, 2.8rem); margin-bottom: 18px; }
 .consent #consent-description { color: #e3d9c9; font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
-.consent-privacy { color: var(--gold); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; min-height: 44px; }
+.consent-privacy { color: var(--gold); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 .consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
 .consent-actions .button { width: 100%; min-height: 48px; }
 body:has(.consent[open]) { overflow: hidden; }

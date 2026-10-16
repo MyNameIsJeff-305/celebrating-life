@@ -119,3 +119,11 @@ The unlocalized `/` route chooses a saved manual language preference first, then
 The cookie notice is a centered native dialog in both languages, with Accept/Reject buttons and a privacy link. Escape dismisses it without granting consent; the footer reopens it. Analytics continues to require explicit acceptance; scrolls, unrelated clicks and form activity do not grant consent. Existing yes/no choices are preserved. The privacy page can be read without an automatic dialog interruption. Analytics consent stays usable within the current page when browser storage is blocked.
 
 For this change, the request to infer acceptance from scrolling has deliberately not been applied: a scroll does not express a clear cookie choice. Review the explicit-choice alternative in the PR before release.
+
+## Website icons
+
+All website pictograms use `@lucide/astro` (pinned in the package lock): ArrowUpRight, ArrowDown, Pause, Play and Crown. Components render inline SVG at build time, inherit the existing colors and include decorative accessibility attributes. No icon font, CDN or client-side icon initialization is required. Use named Lucide imports for future interface icons instead of Unicode arrows or emoji.
+
+The favicon uses the same Lucide Crown geometry on a dark tile; its source version is recorded in the SVG comment. `public/lucide-license.txt` contains the upstream license notices. Printed label artwork is a separate deliverable and was not changed by this website update.
+
+The submit button updates only its text span while saving, preserving the SVG through validation errors, failed requests and retries.

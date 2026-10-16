@@ -1,4 +1,5 @@
 ---
+import { ArrowUpRight } from '@lucide/astro';
 import { copy, type Lang } from '../data/event';
 import '../styles/consent.css';
 interface Props { lang: Lang; autoPrompt: boolean; }
@@ -9,7 +10,7 @@ const t = copy[lang];
   <p class="eyebrow">CELEBRATING LIFE</p>
   <h2 id="consent-title" tabindex="-1" autofocus>{t.cookieTitle}</h2>
   <p id="consent-description">{t.cookieText}</p>
-  <a class="consent-privacy" href={`/${lang}/privacy/`}>{t.cookieDetails} ↗</a>
+  <a class="consent-privacy" href={`/${lang}/privacy/`}>{t.cookieDetails} <ArrowUpRight class="ui-icon" size={18} aria-hidden="true" focusable="false"/></a>
   <div class="consent-actions">
     <button type="button" id="consent-yes" class="button">{t.allow}</button>
     <button type="button" id="consent-no" class="button secondary">{t.decline}</button>

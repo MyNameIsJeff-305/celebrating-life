@@ -1,4 +1,5 @@
 ---
+import { ArrowUpRight } from '@lucide/astro';
 import {copy,type Lang} from '../data/event';
 interface Props {lang:Lang;kind:'contact'|'attendee'}
 const {lang,kind}=Astro.props,t=copy[lang],contact=kind==='contact';
@@ -14,7 +15,7 @@ const {lang,kind}=Astro.props,t=copy[lang],contact=kind==='contact';
 {contact&&<><label class="field">{t.messageLabel}<textarea name="message" maxlength="2000" rows="5"></textarea></label><label class="check"><input type="checkbox" name="contactPermission"/><span>{t.permission}</span></label></>}
 <label class="check"><input type="checkbox" name="updatesPermission"/><span>{t.updates}</span></label>
 <p class="help">{t.privacyNote} <a href={`/${lang}/privacy/`} style="text-decoration:underline">{t.privacy}</a></p>
-<p class="status" id="form-status" role="alert"></p><button type="submit" class="button">{contact?t.send:t.submitRegistration} <span aria-hidden="true">↗</span></button>
+<p class="status" id="form-status" role="alert"></p><button type="submit" class="button"><span data-submit-label>{contact?t.send:t.submitRegistration}</span> <ArrowUpRight class="ui-icon" size={18} aria-hidden="true" focusable="false"/></button>
 </form>
 <section class="success" id="form-success" hidden tabindex="-1"><h2>{contact?t.successTitle:t.registeredTitle}</h2><p>{contact?t.successText:t.registeredText}</p><code id="registration-code" hidden></code><a class="button" href={`/${lang}/`}>{t.back}</a></section>
 </div>

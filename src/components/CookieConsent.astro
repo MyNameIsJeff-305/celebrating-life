@@ -1,0 +1,17 @@
+---
+import { copy, type Lang } from '../data/event';
+import '../styles/consent.css';
+interface Props { lang: Lang; autoPrompt: boolean; }
+const { lang, autoPrompt } = Astro.props;
+const t = copy[lang];
+---
+<dialog id="consent" class="consent" data-auto-prompt={String(autoPrompt)} aria-labelledby="consent-title" aria-describedby="consent-description">
+  <p class="eyebrow">CELEBRATING LIFE</p>
+  <h2 id="consent-title" tabindex="-1" autofocus>{t.cookieTitle}</h2>
+  <p id="consent-description">{t.cookieText}</p>
+  <a class="consent-privacy" href={`/${lang}/privacy/`}>{t.cookieDetails} ↗</a>
+  <div class="consent-actions">
+    <button type="button" id="consent-yes" class="button">{t.allow}</button>
+    <button type="button" id="consent-no" class="button secondary">{t.decline}</button>
+  </div>
+</dialog>
